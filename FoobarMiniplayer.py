@@ -3,7 +3,6 @@
 from tkinter import *
 import os, io, sys, ctypes
 from math import log10
-
 import win32gui, win32con, win32api
 from PIL import Image, ImageTk
 from mutagen import File
@@ -26,7 +25,6 @@ position = (10,10)
 alpha = 0.6
 
 class Application(Frame):
-    
     def __init__(self, master=None):
         Frame.__init__(self, master, background=col_bg)
         
@@ -74,7 +72,6 @@ class Application(Frame):
         self.master.geometry("+%s+%s" % (x, y))
         
     def create_widgets(self):
-        
         #Add album art
         self.art_lbl = Label(self, image=self.alb_art, bd=0, highlightthickness=0)
         self.art_lbl.place(x=0,y=0)
@@ -125,7 +122,6 @@ class Application(Frame):
         self.marquee_lbl.place(x=40,y=0)
     
     def updater(self):
-        
         if playback.IsPaused != self.paused:
             if playback.IsPaused:
                 self.playpause_btn.configure(image = self.play_img)
@@ -167,7 +163,6 @@ class Application(Frame):
         self.after(250, self.updater)
     
     def load_images(self):
-        
         play_image = Image.open(os.getcwd()+"\\res\\btn_play.png")
         self.play_img = ImageTk.PhotoImage(play_image)
         
@@ -184,17 +179,14 @@ class Application(Frame):
         self.rand_img = ImageTk.PhotoImage(rand_image)
     
     def vol_update(self, event):
-        
         percent = self.vol_scl.get()
         db = (log10(percent)/2*100) -100
         playback.Settings.Volume = db
         
     def get_path(self):
-        
         return playback.FormatTitle("[%path%]")
         
     def get_np(self):
-        
         # Find current artist/track
         if playback.isPlaying:
             artist = str(playback.FormatTitle("[%artist%]"))
@@ -210,7 +202,6 @@ class Application(Frame):
         return artist+" :: "+track
     
     def get_art(self):
-        
         found_art = False
         art_files = ["folder.jpg", "folder.png", "folder.gif",
                     "cover.png", "cover.jpg", "cover.gif",
@@ -240,7 +231,6 @@ class Application(Frame):
         return ImageTk.PhotoImage(img)
     
     def focus_fb(self, event=None):
-        
         toplist = []
         winlist = []
         def enum_callback(hwnd, results):
@@ -254,7 +244,6 @@ class Application(Frame):
         win32gui.SetForegroundWindow(foobar[0])
       
     def save_and_quit(self, event=None):
-        
         x = self.master.winfo_x()
         y = self.master.winfo_y()
         
@@ -277,7 +266,6 @@ class Application(Frame):
         self.clipboard_append(self.np)
     
 def check_aero():
-    
     try:
         b = ctypes.c_bool()
         retcode = ctypes.windll.dwmapi.DwmIsCompositionEnabled(ctypes.byref(b))
@@ -287,7 +275,6 @@ def check_aero():
         return False
 
 def load_config():
-    
     global position, alpha, col_fg, col_bg, theme
     
     with open(os.getcwd()+"\config.ini") as config:
@@ -309,7 +296,6 @@ def load_config():
     return
              
 def main():
-    
     load_config()
     
     root = Tk()
