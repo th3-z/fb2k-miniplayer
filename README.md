@@ -1,4 +1,4 @@
-# fb2k-mini-player
+# Foobar2000 Mini-Player
 A tiny Foobar 2000 controller for Windows that can sit above other applications in borderless-fullscreen mode.
 
 ### Installation
@@ -13,12 +13,8 @@ A tiny Foobar 2000 controller for Windows that can sit above other applications 
 * Middle-click-hold - move fb2k-mini-player
 * Ctrl + C - copy track information to clipboard
 
-### Build requirements
-* pywin32
-* pillow
-* mutagen
-* cx_freeze
-* python 3.x
+### Requirements
+Install the requirements with pip `pip install -r requirements.txt`.
 
 ### Building
-Run `build.bat`
+Install the requirements and run  setup `python setup.py build`.

@@ -1,0 +1,4 @@
+pywin32
+pillow
+mutagen
+cx_freeze
