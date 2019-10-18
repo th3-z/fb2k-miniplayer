@@ -1,4 +1,7 @@
 # Foobar2000 Mini-Player
+[![Downloads](https://img.shields.io/github/downloads/th3-z/fb2k-mini-player/total.svg)](https://img.shields.io/github/downloads/th3-z/fb2k-mini-player/total.svg)
+[![GitHub license](https://img.shields.io/github/license/th3-z/fb2k-mini-player)](https://github.com/th3-z/fb2k-mini-player/blob/master/LICENSE)
+
 A tiny Foobar 2000 controller for Windows that can sit above other applications in borderless-fullscreen mode.
 
 ### Installation
