@@ -324,15 +324,15 @@ def load_config():
             if "position" in line:
                 x_loc = line.find("=")+1
                 y_loc = line.find(",")+1
-                x = int(line[x_loc:y_loc-1])
-                y = int(line[y_loc:])
+                x = int(line[x_loc:y_loc-1].strip())
+                y = int(line[y_loc:].strip())
                 position = (x, y)
             if "alpha" in line:
-                alpha = float(line[line.find("=")+1:])
+                alpha = float(line[line.find("=")+1:].strip())
             if "col_fg" in line:
-                col_fg = line[line.find("#"):]
+                col_fg = line[line.find("#"):].strip()
             if "col_bg" in line:
-                col_bg = line[line.find("#"):]
+                col_bg = line[line.find("#"):].strip()
     config.close()
     return
 
