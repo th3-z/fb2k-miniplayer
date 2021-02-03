@@ -24,8 +24,8 @@ except Exception:
 playback = f2k.Playback
 
 # Fallback values for settings
-col_bg = "#000000"
-col_fg = "#bada55"
+col_bg = "#212121"
+col_fg = "#ffffff"
 position = (10, 10)
 alpha = 0.6
 
