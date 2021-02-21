@@ -4,10 +4,11 @@ import io
 import sys
 import ctypes
 from math import log10
+import numpy as np
 import win32gui
 import win32con
 import win32api
-from PIL import Image, ImageTk
+from PIL import Image, ImageTk, ImageColor
 from mutagen import File
 import win32com.client
 
@@ -197,21 +198,31 @@ class Application(Frame):
 
         self.after(250, self.updater)
 
+    def recol_image(self, image, colour="#ffffff"):
+        colour = ImageColor.getcolor(colour, 'RGB')
+        image = image.convert('RGBA')
+        data = np.array(image)
+        r, g, b, a = data.T
+        white = (r == 255) & (b == 255) & (g == 255)
+        data[..., :-1][white.T] = (colour[0], colour[1], colour[2])
+
+        return Image.fromarray(data)
+
     def load_images(self):
         play_image = Image.open(os.getcwd()+"\\res\\btn_play.png")
-        self.play_img = ImageTk.PhotoImage(play_image)
+        self.play_img = ImageTk.PhotoImage(self.recol_image(play_image, col_fg))
 
         pause_image = Image.open(os.getcwd()+"\\res\\btn_pause.png")
-        self.pause_img = ImageTk.PhotoImage(pause_image)
+        self.pause_img = ImageTk.PhotoImage(self.recol_image(pause_image, col_fg))
 
         prev_image = Image.open(os.getcwd()+"\\res\\btn_prev.png")
-        self.prev_img = ImageTk.PhotoImage(prev_image)
+        self.prev_img = ImageTk.PhotoImage(self.recol_image(prev_image, col_fg))
 
         next_image = Image.open(os.getcwd()+"\\res\\btn_next.png")
-        self.next_img = ImageTk.PhotoImage(next_image)
+        self.next_img = ImageTk.PhotoImage(self.recol_image(next_image, col_fg))
 
         rand_image = Image.open(os.getcwd()+"\\res\\btn_rand.png")
-        self.rand_img = ImageTk.PhotoImage(rand_image)
+        self.rand_img = ImageTk.PhotoImage(self.recol_image(rand_image, col_fg))
 
     def vol_update(self, event):
         percent = self.vol_scl.get()
@@ -264,7 +275,7 @@ class Application(Frame):
             # Resize image
             img = img.resize((40, 40), Image.ANTIALIAS)
         else:
-            img = Image.open("res\\album_art.png")
+            img = self.recol_image(Image.open("res\\album_art.png"), col_fg)
 
         return ImageTk.PhotoImage(img)
 
