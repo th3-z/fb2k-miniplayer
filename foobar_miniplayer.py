@@ -26,7 +26,7 @@ try:
     f2k = win32com.client.Dispatch(program)
 except Exception:
     win32api.MessageBox(
-        0, "Could not connect to f2k COM server.", "FoobarMiniplayer - Error"
+        0, "Could not connect to Foobar 2000 COM server. Please refer to the included README file.", "FoobarMiniplayer - Error"
     )
     sys.exit()
 
