@@ -6,6 +6,8 @@ os.environ['TCL_LIBRARY'] = os.path.join(PYTHON_INSTALL_DIR, 'tcl', 'tcl8.6')
 os.environ['TK_LIBRARY'] = os.path.join(PYTHON_INSTALL_DIR, 'tcl', 'tk8.6')
 
 include_files = [
+    ('LICENSE', 'LICENSE'),
+    ('README.md', 'README.md'),
     ('res/album_art.png', 'res/album_art.png'),
     ('res/btn_next.png', 'res/btn_next.png'),
     ('res/btn_pause.png', 'res/btn_pause.png'),
@@ -19,9 +21,9 @@ include_files = [
 
 executables = [
     Executable(
-        "FoobarMiniplayer.py",
+        "foobar_miniplayer.py",
         base="Win32GUI",
-        targetName="FoobarMiniplayer.exe",
+        targetName="Foobar Miniplayer.exe",
         icon="icon.ico"
     )
 ]
@@ -30,7 +32,7 @@ options = {
     'build_exe': {
         'packages': [
             "os", "PIL", "mutagen", "win32com", "win32gui",
-            "win32con", "win32api", "tkinter"
+            "win32con", "win32api", "tkinter", "numpy"
         ],
         'optimize': 2,
         'include_files': include_files
@@ -39,7 +41,7 @@ options = {
 setup(
     options=options,
     name="Foobar Miniplayer",
-    version="0.0.1",
-    description="Small COM GUI for foobar2k",
+    version="0.1.0",
+    description="Small COM GUI for Foobar 2000",
     executables=executables
     )
