@@ -12,6 +12,7 @@ from PIL import Image, ImageTk, ImageColor
 from mutagen import File
 import win32com.client
 
+
 # Connect to foobar2k
 program = "Foobar2000.Application.0.7"
 try:
@@ -27,6 +28,7 @@ playback = f2k.Playback
 # Fallback values for settings
 col_bg = "#212121"
 col_fg = "#ffffff"
+prefer_external = False
 position = (10, 10)
 alpha = 0.6
 
@@ -157,7 +159,7 @@ class Application(Frame):
             bg=col_bg, fg=col_fg,
             highlightthickness=0, bd=0,
             padx=1, pady=0,
-            font=("Tahoma", "8")
+            font=("tahoma", "8")
         )
         self.marquee_lbl.place(x=40, y=0)
 
@@ -255,27 +257,31 @@ class Application(Frame):
 
     def get_art(self):
         found_art = False
-        art_files = [
-            "folder.jpg", "folder.png", "folder.gif", "cover.png",
-            "cover.jpg", "cover.gif", "front.jpg", "front.png", "front.gif"
-        ]
-        folder, filename = os.path.split(self.path)
 
-        for filename in art_files:
-            if os.path.isfile(folder+"\\"+filename):
-                img = Image.open(folder+"\\"+filename)
-                found_art = True
+        try:
+            file = File(self.path)
+            # Access APIC frame and grab bytes
+            art_bytes = file.tags["APIC:"].data or file.tags["covr"]
+            # Create new PIL image from bytes
+            img = Image.open(io.BytesIO(art_bytes))
+            found_art = True
+        except Exception:
+            pass
 
-        if not found_art:
-            try:
-                file = File(self.path)
-                # Access APIC frame and grab bytes
-                art_bytes = file.tags["APIC:"].data
-                # Create new PIL image from bytes
-                img = Image.open(io.BytesIO(art_bytes))
-                found_art = True
-            except Exception:
-                pass
+        if not found_art or prefer_external:
+            art_files = [
+                "folder.jpg", "folder.png", "folder.gif", "cover.png",
+                "cover.jpg", "cover.gif", "front.jpg", "front.png", "front.gif"
+            ]
+            folder, filename = os.path.split(self.path)
+
+            for filename in art_files:
+                if os.path.isfile(folder+"\\"+filename):
+                    try:
+                        img = Image.open(folder+"\\"+filename)
+                        found_art = True
+                    except Exception:
+                        pass
 
         if found_art and img is not None:
             # Resize image
@@ -334,7 +340,7 @@ def check_aero():
 
 
 def load_config():
-    global position, alpha, col_fg, col_bg
+    global position, alpha, col_fg, col_bg, prefer_external
 
     with open(os.getcwd() + "\\config.ini") as config:
         for line in config:
@@ -347,15 +353,21 @@ def load_config():
             if "alpha" in line:
                 alpha = float(line[line.find("=")+1:].strip())
             if "col_fg" in line:
-                col_fg = line[line.find("#"):].strip()
+                col_fg = line[line.find("#"):].strip() or col_fg
             if "col_bg" in line:
-                col_bg = line[line.find("#"):].strip()
+                col_bg = line[line.find("#"):].strip() or col_bg
+            if "prefer_external" in line and "1" in line:
+                prefer_external = True
     config.close()
     return
 
 
 def main():
-    load_config()
+    try:
+        # I don't trust this config parser, the fallbacks might work if it fails
+        load_config()
+    except Exception:
+        pass
 
     root = Tk()
     root.geometry("187x40+"+str(position[0])+"+"+str(position[1]))
