@@ -58,8 +58,14 @@ class Application(Frame):
         self.master.bind("<ButtonRelease-2>", self.stop_move)
         self.master.bind("<B2-Motion>", self.on_motion)
         self.master.bind("<Control-c>", self.copy_track)
+        self.master.bind("<MouseWheel>", self.wheel)
 
         self.updater()
+
+    def wheel(self, event):
+        curr_percent = self.vol_scl.get()
+        delta = 3 if event.delta > 0 else -3
+        self.vol_scl.set(curr_percent + delta)
 
     def start_move(self, event):
         self.x = event.x
