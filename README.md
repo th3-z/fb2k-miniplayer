@@ -42,7 +42,7 @@ Please refer to this diagram and the bullet points.
 2. Previous track button. Left-click to play the **previous track** in the playlist.
 3. Play/Pause button. Left-click to **toggle playing/paused** state.
 4. Next track button. Left-click to skip to the **next track** in the playlist.
-5. Volume slider. Drag the bar to adjust the **volume**.
+5. Volume slider. Scroll or drag the bar to adjust the **volume**.
 6. Current artist/song marquee.
 
 * Holding middle mouse and dragging **moves the player**, the chosen position will be recalled at startup.
