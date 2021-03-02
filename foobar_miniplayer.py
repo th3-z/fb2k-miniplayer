@@ -10,6 +10,7 @@ import win32api
 from PIL import Image, ImageTk, ImageColor
 from mutagen import File
 from mutagen.flac import FLAC
+from mutagen.mp4 import MP4
 import win32com.client
 
 import sys
@@ -268,7 +269,7 @@ class Application(Frame):
         try:  # MP3
             file = File(self.path)
             # Access APIC frame and grab bytes
-            art_bytes = file.tags["APIC:"].data or file.tags["covr"]
+            art_bytes = file.tags["APIC:"].data
             # Create new PIL image from bytes
             img = Image.open(io.BytesIO(art_bytes))
             found_art = True
@@ -281,7 +282,15 @@ class Application(Frame):
                 img = Image.open(io.BytesIO(file.pictures[0].data))
                 found_art = True
         except Exception:
-            pass            
+            pass
+
+        try:  # MP4
+            file = MP4(self.path)
+            art_bytes = file.tags["covr"][0]
+            img = Image.open(io.BytesIO(art_bytes))
+            found_art = True
+        except Exception:
+            pass
 
         if not found_art or prefer_external:
             art_files = [
