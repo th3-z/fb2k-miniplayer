@@ -35,7 +35,7 @@ The most recent release is `0.1.0`. A binary is provided on the releases page.
 
 Please refer to this diagram and the bullet points.
 
-![Diagram of player](https://files.th3-z.xyz/standing/mini-player.png)
+![Diagram of player](https://github.com/th3-z/fb2k-miniplayer/raw/master/.github/diagram.png)
 
 0. Current album artwork. Left-click to **focus Foobar 2000**, right-click to **close Foobar Miniplayer**.
 1. Shuffle button. Left-click to select a **random track**, this does not affect your playlist order.
